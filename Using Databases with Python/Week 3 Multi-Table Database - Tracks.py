@@ -73,8 +73,10 @@ for entry in all:
 
     print(name, artist, album, count, rating, length, genre)
     # Artist table
+    # INSERT if it doesn't EXIST
     cur.execute('''INSERT OR IGNORE INTO Artist (name)
         VALUES ( ? )''', ( artist, ) )
+    # get newly created id or original generated id
     cur.execute('SELECT id FROM Artist WHERE name = ? ', (artist, ))
     # Album foreign key: artist_id
     artist_id = cur.fetchone()[0]
