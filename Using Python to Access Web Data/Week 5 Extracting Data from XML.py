@@ -1,4 +1,6 @@
-import urllib.request, urllib.parse, urllib.error
+import urllib.request
+import urllib.parse
+import urllib.error
 import xml.etree.ElementTree as ET
 import ssl
 
@@ -10,7 +12,7 @@ api_key = False
 if api_key is False:
     api_key = 42
     serviceurl = 'http://py4e-data.dr-chuck.net/xml?'
-else :
+else:
     serviceurl = 'https://maps.googleapis.com/maps/api/geocode/xml?'
 
 # Ignore SSL certificate errors

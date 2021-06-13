@@ -18,7 +18,7 @@ for i in data:
                     WHERE org = ?''', (domain,))
     row = cur.fetchone()
     if row is None:
-        cur.execute('''INSERT INTO Counts (org, count) VALUES (?,1)''',(domain,))
+        cur.execute('''INSERT INTO Counts (org, count) VALUES (?,1)''', (domain,))
     else:
         cur.execute('''UPDATE Counts
                         SET count = count +1
@@ -29,6 +29,6 @@ sqlstr = '''SELECT org, count
             FROM Counts
             ORDER BY count DESC'''
 for i in cur.execute(sqlstr):
-    print(i[0],i[1])
+    print(i[0], i[1])
 
 cur.close()

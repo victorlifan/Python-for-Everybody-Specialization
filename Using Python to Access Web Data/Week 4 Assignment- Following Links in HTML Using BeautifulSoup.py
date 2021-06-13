@@ -2,7 +2,9 @@
 # http://www.py4e.com/code3/bs4.zip
 # and unzip it in the same directory as this file
 
-import urllib.request, urllib.parse, urllib.error
+import urllib.request
+import urllib.parse
+import urllib.error
 from bs4 import BeautifulSoup
 import ssl
 import re
@@ -40,10 +42,10 @@ while True:
         pos = int(input("Enter position:"))
     else:
         for i in range(count):
-                html = urllib.request.urlopen(url, context=ctx).read()
-                soup = BeautifulSoup(html, 'html.parser')
-                tags = soup('a')
-                url= tags[pos-1].get('href',None)
+            html = urllib.request.urlopen(url, context=ctx).read()
+            soup = BeautifulSoup(html, 'html.parser')
+            tags = soup('a')
+            url = tags[pos-1].get('href', None)
         break
 
-print(re.findall("known_by_(.+)\.",url)[0])
+print(re.findall("known_by_(.+)\.", url)[0])

@@ -39,26 +39,31 @@ CREATE TABLE Track (
 
 
 fname = input('Enter file name: ')
-if ( len(fname) < 1 ) : fname = 'Library.xml'
+if (len(fname) < 1):
+    fname = 'Library.xml'
 
 # <key>Track ID</key><integer>369</integer>
 # <key>Name</key><string>Another One Bites The Dust</string>
 # <key>Artist</key><string>Queen</string>
 # <key>Genre</key><string>Rock</string>
 
+
 def lookup(d, key):
     found = False
     for child in d:
-        if found : return child.text
-        if child.tag == 'key' and child.text == key :
+        if found:
+            return child.text
+        if child.tag == 'key' and child.text == key:
             found = True
     return None
+
 
 stuff = ET.parse(fname)
 all = stuff.findall('dict/dict/dict')
 print('Dict count:', len(all))
 for entry in all:
-    if ( lookup(entry, 'Track ID') is None ) : continue
+    if (lookup(entry, 'Track ID') is None):
+        continue
 
     name = lookup(entry, 'Name')
     artist = lookup(entry, 'Artist')
@@ -75,7 +80,7 @@ for entry in all:
     # Artist table
     # INSERT if it doesn't EXIST
     cur.execute('''INSERT OR IGNORE INTO Artist (name)
-        VALUES ( ? )''', ( artist, ) )
+        VALUES ( ? )''', (artist, ))
     # get newly created id or original generated id
     cur.execute('SELECT id FROM Artist WHERE name = ? ', (artist, ))
     # Album foreign key: artist_id
@@ -83,14 +88,14 @@ for entry in all:
 
     # Album TABLE
     cur.execute('''INSERT OR IGNORE INTO Album (title, artist_id)
-        VALUES ( ?, ? )''', ( album, artist_id ) )
+        VALUES ( ?, ? )''', (album, artist_id))
     cur.execute('SELECT id FROM Album WHERE title = ? ', (album, ))
     # Track foreign key: album_id
     album_id = cur.fetchone()[0]
 
     # Genre table
     cur.execute('''INSERT OR IGNORE INTO Genre (name) VALUES (?)''', (genre,))
-    cur.execute('''SELECT id FROM Genre WHERE name = ?''',(genre,))
+    cur.execute('''SELECT id FROM Genre WHERE name = ?''', (genre,))
     # Track F key: genre_id
     genre_id = cur.fetchone()[0]
 
@@ -98,6 +103,6 @@ for entry in all:
     cur.execute('''INSERT OR REPLACE INTO Track
         (title, album_id, genre_id, len, rating, count)
         VALUES ( ?, ?, ?, ?, ? ,?)''',
-        ( name, album_id, genre_id, length, rating, count ) )
+                (name, album_id, genre_id, length, rating, count))
 
 conn.commit()
